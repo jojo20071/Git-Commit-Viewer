@@ -134,6 +134,85 @@
             }
         }
 
+        function displayCommits(commits) {
+            const commitsContainer = document.getElementById('commits');
+            commitsContainer.innerHTML = '';
+
+            commits.forEach(commit => {
+                const commitElement = document.createElement('div');
+                commitElement.className = 'commit';
+
+                const commitMessage = document.createElement('div');
+                commitMessage.className = 'commit-message';
+                commitMessage.textContent = commit.commit.message;
+
+                const commitLink = document.createElement('a');
+                commitLink.href = commit.html_url;
+                commitLink.textContent = 'View Commit';
+                commitLink.target = '_blank';
+
+                const copyButton = document.createElement('button');
+                copyButton.textContent = 'Copy Link';
+                copyButton.onclick = function() {
+                    copyToClipboard(commit.html_url);
+                };
+
+                commitElement.appendChild(commitMessage);
+                commitElement.appendChild(commitLink);
+                commitElement.appendChild(copyButton);
+                commitsContainer.appendChild(commitElement);
+            });
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+            });
+        }
+
+
+
+        async function getCommits(repoLink) {
+
+                const response = await fetch(apiUrl);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const commits = await response.json();
+                displayCommits(commits);
+                console.error('There was a problem with the fetch operation:', error);
+                alert('Failed to fetch commits. Please check the repository link.');
+            }
+        
+
+
+        function displayCommits(commits) {
+            const commitsContainer = document.getElementById('commits');
+            commitsContainer.innerHTML = '';
+
+            secondcommits.forEach(commit => {
+                const commitElement = document.createElement('div');
+
+                const copyButton = document.createElement('button');
+                copyButton.textContent = 'Copy Link';
+                copyButton.onclick = function() {
+                    copyToClipboard(commit.html_url);
+                };
+
+            });
+        }
+
+        function copyToWindwsClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+            });
+        }
+
+
 
     </script>
 </body>
