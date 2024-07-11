@@ -28,16 +28,64 @@
             text-align: center;
             color: #333;
         }
-        
+        #repos, #commits {
+            margin-top: 20px;
+        }
+        .repo, .commit {
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .commit-message {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        button {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 3px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            margin: 10px;
+        }
+
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>GitHub Repo Commits</h1>
+        <h1>Git-Hub Repo Commits</h1>
         <div id="repos"></div>
         <div id="commits"></div>
     </div>
 
+    <script>
+        const profileUrl = 'https://github.com/jojo20071'; // Replace with the desired GitHub profile URL
+
+        document.addEventListener('DOMContentLoaded', function() {
+            getRepos(profileUrl);
+        });
+
+        async function getRepos(profileUrl) {
+            const username = new URL(profileUrl).pathname.slice(1);
+            const apiUrl = `https://api.github.com/users/${username}/repos?per_page=5&sort=created&direction=desc`;
+
+            try {
+                const response = await fetch(apiUrl);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const repos = await response.json();
+                displayRepos(repos);
+            } catch (error) {
+                console.error('There was a problem with the fetch operation:', error);
+                alert('Failed to fetch repos. Please check the profile URL.');
+            }
+        }
+
     
+    </script>
 </body>
 </html>
