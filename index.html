@@ -51,12 +51,21 @@
             cursor: pointer;
             margin: 10px;
         }
-
+        button:hover {
+            background-color: #0056b3;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Git-Hub Repo Commits</h1>
+        <h1>GitHub Repo Commits</h1>
         <div id="repos"></div>
         <div id="commits"></div>
     </div>
@@ -85,7 +94,47 @@
             }
         }
 
-    
+        function displayRepos(repos) {
+            const reposContainer = document.getElementById('repos');
+            reposContainer.innerHTML = '';
+
+            repos.forEach(repo => {
+                const repoElement = document.createElement('div');
+                repoElement.className = 'repo';
+
+                const repoName = document.createElement('div');
+                repoName.textContent = repo.name;
+
+                const showCommitsButton = document.createElement('button');
+                showCommitsButton.textContent = 'Show Commits';
+                showCommitsButton.onclick = function() {
+                    getCommits(repo.html_url);
+                };
+
+                repoElement.appendChild(repoName);
+                repoElement.appendChild(showCommitsButton);
+                reposContainer.appendChild(repoElement);
+            });
+        }
+
+        async function getCommits(repoLink) {
+            const repoPath = new URL(repoLink).pathname;
+            const apiUrl = `https://api.github.com/repos${repoPath}/commits`;
+
+            try {
+                const response = await fetch(apiUrl);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const commits = await response.json();
+                displayCommits(commits);
+            } catch (error) {
+                console.error('There was a problem with the fetch operation:', error);
+                alert('Failed to fetch commits. Please check the repository link.');
+            }
+        }
+
+
     </script>
 </body>
 </html>
