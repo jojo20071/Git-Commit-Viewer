@@ -1,3 +1,3 @@
 # Git-Commit-Viewer
 
-Live Demo: (git-commit-viewer.netlify.app)
+Live Demo: [click here](https://git-commit-viewer.netlify.app/)
