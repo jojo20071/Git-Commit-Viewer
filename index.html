@@ -78,7 +78,7 @@
 
         async function getRepos(profileUrl) {
             const username = new URL(profileUrl).pathname.slice(1);
-            const apiUrl = `https://api.github.com/users/${username}/repos?per_page=5&sort=created&direction=desc`;
+            const apiUrl = `https://api.github.com/users/${username}/repos?per_page=10&sort=created&direction=desc`;
 
             try {
                 const response = await fetch(apiUrl);
